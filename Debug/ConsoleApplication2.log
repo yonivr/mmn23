@@ -1,11 +1,15 @@
 ﻿  main.c
-c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(30): warning C4101: 'i': unreferenced local variable
-c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(31): warning C4101: 'word': unreferenced local variable
-c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(49): warning C4047: 'function': 'const char *' differs in levels of indirection from 'char'
-c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(49): warning C4024: 'strcat': different types for formal and actual parameter 2
-c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(46): warning C4047: 'initializing': 'char' differs in levels of indirection from 'char [7]'
-c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(102): warning C4013: 'isdigit' undefined; assuming extern returning int
-c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(102): warning C4013: 'isalpha' undefined; assuming extern returning int
-c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(106): warning C4172: returning address of local variable or temporary: res
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(20): warning C4005: '_CRT_SECURE_NO_WARNINGS': macro redefinition
+  c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(20): note: command-line arguments:  see previous definition of '_CRT_SECURE_NO_WARNINGS'
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(51): warning C4047: 'function': 'Node **' differs in levels of indirection from 'Node *'
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(51): warning C4024: 'printList': different types for formal and actual parameter 1
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(96): warning C4047: 'function': 'const char *' differs in levels of indirection from 'char'
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(96): warning C4024: 'strcat': different types for formal and actual parameter 2
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(92): warning C4047: 'initializing': 'char' differs in levels of indirection from 'char [7]'
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(111): warning C4013: 'isdigit' undefined; assuming extern returning int
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(111): warning C4013: 'isalpha' undefined; assuming extern returning int
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(114): warning C4013: 'tolower' undefined; assuming extern returning int
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(129): warning C4047: 'function': 'Node **' differs in levels of indirection from 'Node ***'
+c:\users\yonir\source\repos\consoleapplication2\consoleapplication2\main.c(129): warning C4024: 'addNode': different types for formal and actual parameter 1
   ConsoleApplication2.vcxproj -> C:\Users\yonir\source\repos\ConsoleApplication2\Debug\ConsoleApplication2.exe
   ConsoleApplication2.vcxproj -> C:\Users\yonir\source\repos\ConsoleApplication2\Debug\ConsoleApplication2.pdb (Partial PDB)

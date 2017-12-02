@@ -3,6 +3,7 @@
 #include <string.h>
 #include "IndexList.h"
 
+
 /* New node in index List*/
 struct Node *newNode(char *linenum, char *word)
 {
@@ -10,8 +11,8 @@ struct Node *newNode(char *linenum, char *word)
 	struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
 
 	/* put in the data  */
-	new_node->linuenum = strdup(linenum);
-	new_node->word = strdup(word);
+	new_node->linuenum = _strdup(linenum);
+	new_node->word = _strdup(word);
 	new_node->next = NULL;
 
 	return new_node;
@@ -87,10 +88,10 @@ void updateNode(struct Node** head, char *linenum, char *word)
 		{
 			if (checklinenum(temp->linuenum, linenum) == 0)//line number is not in line num list add it
 			{
-				strcat(newlinenum, temp->linuenum);
-				strcat(newlinenum, ",");
-				strcat(newlinenum, linenum);
-				temp->linuenum = strdup(newlinenum);
+				strcat_s(newlinenum,sizeof(newlinenum), temp->linuenum);
+				strcat_s(newlinenum, sizeof(newlinenum), ",");
+				strcat_s(newlinenum, sizeof(newlinenum), linenum);
+				temp->linuenum = _strdup(newlinenum);
 			}
 		}
 		temp = temp->next;//go to the next node 

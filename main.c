@@ -17,12 +17,13 @@ workflow:
 #include <stdlib.h>
 #include <string.h>
 #include "IndexList.h"
+#define _CRT_SECURE_NO_WARNINGS
 #define LINE_LEN 1000
 #define ERR	1
 #define SUCCESS 0
 
 
-
+int startLineIndex(int argc, char *argv[]);
 int getFile(char *s, struct Node* head);
 int initIndex(char *s);
 char *normalLine(char *s);
@@ -30,16 +31,22 @@ int readLine(char *s,int lineNum,struct Node** head);
 
 int main(int argc,char *argv[])
 {
+	//startLineIndex(argc, argv);
+
+}
+
+int startLineIndex(int argc, char *argv[])
+{
 	int res = 0;/*check if getFile Worked*/
 	struct Node* head = NULL;/*init indexList*/
 
 	if (argc == 2)/*case two arguments supplied*/
 	{
-		res = getFile(argv[1],head) == ERR;/*populate index*/
-		if (res==ERR)/*case cant open file*/
+		res = getFile(argv[1], head) == ERR;/*populate index*/
+		if (res == ERR)/*case cant open file*/
 			printf("Eror opening file");
 		else
-			PrintWordIndex(head);
+			printList(head);
 	}
 	else if (argc > 2)/*too many arguments*/
 		printf("Too many arguments supplied.\n");
@@ -93,28 +100,30 @@ int initIndex(char *s)
 /*replace non alphanumeric letters to seperators by space*/
 char *normalLine(char *s)
 {
-	char res[WORD_LEN];// line to return
+	static char res[WORD_LEN];// line to return
+	memset(res, '\0', sizeof(res));
 	strcpy(res, s);//copy current line to temp string
 	for (char *p = res; *p; p++)//iterate the string and replace non alphanumeric with space
 	{
 		if (!isdigit(*p) && !isalpha(*p))
 			*p = ' ';
+		if (isalpha(*p))
+			*p = tolower(*p);
 	}
-	//printf("%s\n", res);
 	return res;
 }
 /*iterate line and add words to index*/
 int readLine(char *s,int lineNum,struct Node** head)
 {
-	char word[WORD_LEN];
 	const char seperator[2] = " ";
-	char *token;
+	char *word;
+	char linenumString[5];
 	/*seperate line to words*/
-	token = strtok(s, seperator);
-	while (token != NULL) {
+	word = strtok(s, seperator);
+	while (word != NULL) {
 		/*Add word to index in case doest exist or update line number*/
-		AddWordToIndex(head, token, lineNum);
-		token = strtok(NULL, s);
+		addNode(&head, _itoa(lineNum,linenumString,10), word);
+		word = strtok(NULL, s);
 	}
 	return SUCCESS;
 }

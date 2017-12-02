@@ -5,7 +5,7 @@
 
 
 /* New node in index List*/
-struct Node *newNode(char *linenum,char *word)
+struct Node *newNode(char *linenum, char *word)
 {
 	/* allocate node */
 	struct Node* new_node = (struct Node*) malloc(sizeof(struct Node));
@@ -28,26 +28,26 @@ void printList(struct Node *head)
 	}
 }
 /* function to insert a new_node in a list. Note that this
-function expects a pointer to head_ref as this can modify the
+function expects a pointer to head as this can modify the
 head of the input linked list (similar to push())*/
-void sortedInsert(struct Node** head_ref, struct Node* new_node)
+void sortedInsert(struct Node** head, struct Node* new_node)
 {
 	struct Node* current;
 	/* Special case for the head end */
-	if (*head_ref == NULL || (*head_ref)->data >= new_node->data)
+	if (*head == NULL || (strcmp((*head)->word, new_node->word) >= 0))//case new_node is before head put new_node as head
 	{
-		new_node->next = *head_ref;
-		*head_ref = new_node;
+		new_node->next = *head;
+		*head = new_node;
 	}
 	else
 	{
 		/* Locate the node before the point of insertion */
-		current = *head_ref;
+		current = *head;
 		while (current->next != NULL &&
-			current->next->data < new_node->data)
+			(strcmp(current->next->word, new_node->word) < 0))//check if new_node is after word after current
 		{
 			current = current->next;
-		}
+		}//insert new_node
 		new_node->next = current->next;
 		current->next = new_node;
 	}
@@ -64,16 +64,17 @@ struct Node *findNode(struct Node *head,char *word)
 	}
 	return NULL;//return null if nothing found
 }
+//check if line number exists in line
 int checklinenum(char *line, char *num)
 {
-	char linenum[WORD_LEN];
-	linenum[0] = '\0';
-	strcat(linenum, " ");
-	strcat(linenum, num);
-	strcat(linenum, " ");
-	if (strstr(line, linenum) != NULL)
-		return 0;
-	else
+	//create line number in same format
+	for (char *p = strtok(line, ","); p != NULL; p = strtok(NULL, ","))//iterate line until num is found
+	{
+		if (strstr(p, num))
+		{
+			return 0;
+		}
+	}
 		return -1;
 }
 //finds a node with given word and updates unique line number
@@ -83,9 +84,9 @@ void updateNode(struct Node *head, char *linenum, char *word)
 	char *newlinenum[WORD_LEN];
 	while (temp != NULL)//iterate until end of list
 	{
-		if (strcmp(temp->word, word))
+		if (strcmp(temp->word, word))//check if word is in the list
 		{
-			if (checklinenum(temp->linuenum, linenum) == 0)
+			if (checklinenum(temp->linuenum, linenum) == 0)//line number is not in line num list add it
 			{
 				strcat(newlinenum, temp->linuenum);
 				strcat(newlinenum, ",");
@@ -93,18 +94,24 @@ void updateNode(struct Node *head, char *linenum, char *word)
 				temp->linuenum = strdup(newlinenum);
 			}
 		}
-			
-		temp = temp->next;
+		temp = temp->next;//go to the next node 
 	}
 }
-
+/*
+input:
+head - start of list
+linenum - number of line
+word - word in text
+purpose:
+In case word exists in list starting with head update the linenum or insert word to list if it doesnt exit
+*/
 void addNode(struct Node *head,char *linenum, char *word)
 {
 	struct Node *temp = NULL;
-	if (findNode(head, word))
-		updateNode(head, linenum, word);
+	if (findNode(head, word))//check if word is in list
+		updateNode(head, linenum, word);//update line number in list
 	else
-	{
+	{//case word doesnt exist add node in proper location
 		temp = newNode(linenum, word);
 		sortedInsert(head, temp);
 	}

@@ -14,8 +14,8 @@ struct Node
 };
 
 struct Node *newNode(char *linenum, char *word);
-void printList(struct Node *head);
-struct Node *findNode(struct Node *head, char *word);
+void printList(struct Node** head);
+int findNode(struct Node** head, char *word);
 void sortedInsert(struct Node** head, struct Node* new_node);//check why head is **
 void updateNode(struct Node *head, char *linenum, char *word);
 void addNode(struct Node *head, char *linenum, char *word);

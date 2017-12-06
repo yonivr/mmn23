@@ -81,7 +81,7 @@ int checklinenum(char *line, char *num)
 void updateNode(struct Node** head, char *linenum, char *word)
 {
 	struct Node *temp = *head;//temp node to iterate list
-	char *newlinenum[WORD_LEN];
+	char *newlinenum = (char *) malloc(sizeof(char *)*sizeof(linenum));
 	while (temp != NULL)//iterate until end of list
 	{
 		if (strcmp(temp->word, word))//check if word is in the list
@@ -108,11 +108,11 @@ In case word exists in list starting with head update the linenum or insert word
 void addNode(struct Node** head,char *linenum, char *word)
 {
 	struct Node *temp = NULL;
-	if (findNode(&head, word))//check if word is in list
+	if (findNode(head, word))//check if word is in list
 		updateNode(head, linenum, word);//update line number in list
 	else
 	{//case word doesnt exist add node in proper location
 		temp = newNode(linenum, word);
-		sortedInsert(&head, temp);
+		sortedInsert(head, temp);
 	}
 }

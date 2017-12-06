@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define ERR	1
+#define ERR	-1
 #define SUCCESS 0
 #define WORD_LEN 100
 

@@ -10,31 +10,30 @@ workflow:
 
 
 **/
-
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "IndexList.h"
 #define _CRT_SECURE_NO_WARNINGS
 #define LINE_LEN 1000
-#define ERR	1
-#define SUCCESS 0
 
 
-int startLineIndex(int argc, char *argv[]);
-int getFile(char *s, struct Node* head);
+int startLineIndex(int argc, char *argv[]);//V
+int getFile(char *s, struct Node* head);//VX
 int initIndex(char *s);
-char *normalLine(char *s);
+char *normalLine(char *s);//V
 int readLine(char *s,int lineNum,struct Node** head);
 
 int main(int argc,char *argv[])
 {
-	//startLineIndex(argc, argv);
-
+	startLineIndex(argc, argv);
 }
-
+/*
+validate input file 
+populate index
+print index
+*/
 int startLineIndex(int argc, char *argv[])
 {
 	int res = 0;/*check if getFile Worked*/
@@ -46,7 +45,7 @@ int startLineIndex(int argc, char *argv[])
 		if (res == ERR)/*case cant open file*/
 			printf("Eror opening file");
 		else
-			printList(head);
+			/*	printList(head);*/ printf("");
 	}
 	else if (argc > 2)/*too many arguments*/
 		printf("Too many arguments supplied.\n");
@@ -62,35 +61,47 @@ int getFile(char *s, struct Node* head)
 	char buf[1000];/*current line*/
 	int lineNum = 0;//line index
 	
-
 	ptr_file = fopen(s, "r");/*attempt to open the file s*/
 	if (!ptr_file)/*In case you can't open file return error*/
 		return ERR;
-
 	/*Create an empy index file*/
-	initIndex(s);
-	/*iterate the file until end of file line by line*/
-	while (fgets(buf, LINE_LEN, ptr_file) != NULL)
+	if (initIndex(s)==SUCCESS)
 	{
-		lineNum++;
-		readLine(normalLine(buf),lineNum,&head);/*index each normalized line*/
+		/*iterate the file until end of file line by line*/
+		while (fgets(buf, LINE_LEN, ptr_file) != NULL)
+		{
+			lineNum++;
+			readLine(normalLine(buf),lineNum,&head);//index each normalized line
+		}
+		printf("\n");
 	}
-		
-
+	else
+	{
+		printf("can't initate index\n");
+		fclose(ptr_file);/*close file*/
+		return ERR;
+	}
+	
 	fclose(ptr_file);/*close file*/
 	return SUCCESS;
-
-
 }
 /*create an empty index file*/
 int initIndex(char *s)
 {
 	char indexName[LINE_LEN];//file name to create
-	char index = ".index";/*index extention name*/
+	char index[] = ".index";/*index extention name*/
 	FILE *fp;
-	indexName[0] = '\0';/*initate index name*/
-	strcat(indexName, s);/*append file name to new index name*/
-	strcat(indexName, index);/*append index extention name to new index name*/
+	int i,j=0;
+	/*initate index name*/
+	for (i = 0; i < (int)strlen(s); i++)
+		indexName[i] = s[i];
+	for (j=0; j < (int)strlen(index); j++)
+	{
+		indexName[i] = index[j];
+		i++;
+	}
+	indexName[i] = '\0';
+	printf("%s\n", indexName);
 	fp = fopen(indexName, "ab+");/*create file with new extention*/
 	if (!fp)/*return error in case file coluldnt be created*/
 		return ERR;
@@ -117,12 +128,14 @@ int readLine(char *s,int lineNum,struct Node** head)
 {
 	const char seperator[2] = " ";
 	char *word;
-	char linenumString[5];
+	//char linenumString[5];
 	/*seperate line to words*/
+//	printf("%s\n", s);
 	word = strtok(s, seperator);
 	while (word != NULL) {
 		/*Add word to index in case doest exist or update line number*/
-		addNode(&head, _itoa(lineNum,linenumString,10), word);
+		printf("%s\n",word);
+	//	addNode(&head, _itoa(lineNum,linenumString,10), word);
 		word = strtok(NULL, s);
 	}
 	return SUCCESS;
